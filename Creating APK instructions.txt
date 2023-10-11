@@ -1,0 +1,82 @@
+# Make sure WSL is installed and open a Ubuntu terminal
+
+# Move terminal to the correct directory (directory name cannot be too long)
+
+# Make sure Buildozer is installed
+
+pip3 install --user --upgrade buildozer
+
+# install dependencies
+sudo apt update
+
+sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+
+pip3 install --user --upgrade Cython==0.29.33 virtualenv
+
+export PATH=$PATH:~/.local/bin/
+
+
+
+
+# Make sure adb is installed
+adb --version
+
+
+# Make sure the files: adb, AdbWinApi.dll, AdbWinUsbApi.dll are placed in the project directory
+
+# connect phone to computer and set phone to developer mode
+# to do this go to settings>about device>version
+# click the build number 7 times
+# go to developer options
+# enable usb debugging
+
+
+# create buildozer spec file
+buildozer init
+
+
+# in the spec file change the app title, package name
+# in the application requirements specify the version of kivy used: requirements = python3,kivy==master,https://github.com/kivymd/KivyMD/archive/master.zip,pillow
+
+# set p4a.fork = Rodrigo-Duarte-8128 (because in my github I have a python-for-android fork)
+# set p4a.branch = develop
+# the two above stay commented
+
+# change presplash.filename to add a presplash and change icon.filename to add an icon
+# make sure these lines are not commented out
+
+
+# start adb server
+# open power-shell from the project directory and run
+./adb start-server
+
+
+# to avoid an issue with permissions run
+sudo mount -t drvfs D: /mnt/d -o metadata
+
+
+# go back to the ubuntu terminal and run buildozer
+buildozer -v android debug
+
+
+
+# when there are crashes running builozer, delete the .buildozer file and try again
+
+#instead of deleting the buildozer file you can also try to run
+buildozer android clean
+
+
+# to debug app on android, start powershell from directory
+# run
+./abd start-server
+# check the device was found by running
+./adb devices
+# run the logger
+./abd logcat
+# run the app and see what the logs say
+
+
+
+
+
+
